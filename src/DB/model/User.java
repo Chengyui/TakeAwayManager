@@ -44,4 +44,10 @@ public class User {
 		this.userName = userName;
 		this.passWord = passWord;
 	}
+	public User(String userName,String passWord,int Type) {
+		super();
+		this.userName = userName;
+		this.passWord = passWord;
+		this.Type = Type;
+	}
 }

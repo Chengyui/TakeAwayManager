@@ -33,6 +33,7 @@ import DB.util.DbUtil;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 public class MainFrm extends JFrame {
 
@@ -40,6 +41,7 @@ public class MainFrm extends JFrame {
 	private JTable MenuTable;
 	private DbUtil dbUtil = new DbUtil();
 	private FoodListDao foodListDao = new FoodListDao(); 
+	private JTextField welcome;
 	/**
 	 * Launch the application.
 	 */
@@ -146,6 +148,11 @@ public class MainFrm extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u83DC\u5355 (4).png")));
 		
 		JScrollPane scrollPane = new JScrollPane();
+		
+		welcome = new JTextField();
+		welcome.setEditable(false);
+		welcome.setFont(new Font("黑体", Font.PLAIN, 35));
+		welcome.setColumns(10);
 		GroupLayout gl_table = new GroupLayout(table);
 		gl_table.setHorizontalGroup(
 			gl_table.createParallelGroup(Alignment.TRAILING)
@@ -157,14 +164,18 @@ public class MainFrm extends JFrame {
 							.addComponent(lblNewLabel))
 						.addGroup(gl_table.createSequentialGroup()
 							.addGap(196)
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 434, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(125, Short.MAX_VALUE))
+							.addGroup(gl_table.createParallelGroup(Alignment.LEADING)
+								.addComponent(welcome, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 434, GroupLayout.PREFERRED_SIZE))))
+					.addGap(125))
 		);
 		gl_table.setVerticalGroup(
 			gl_table.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_table.createSequentialGroup()
 					.addComponent(desktopPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(226)
+					.addGap(71)
+					.addComponent(welcome, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+					.addGap(59)
 					.addComponent(lblNewLabel)
 					.addGap(39)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 266, GroupLayout.PREFERRED_SIZE)
@@ -186,6 +197,8 @@ public class MainFrm extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//执行菜单查询
 		this.fillTable(new FoodList());
+		//初始化欢迎
+		this.fillwelcome(user);
 	}
 	
 	/**
@@ -215,5 +228,12 @@ public class MainFrm extends JFrame {
 				e.printStackTrace();
 			}
 		}
+	}
+	/**
+	 * 初始化欢迎
+	 */
+	private void  fillwelcome(User user) {
+		String welcome = "亲爱的 "+user.getUserName()+"欢迎回来";
+		this.welcome.setText(welcome);
 	}
 }

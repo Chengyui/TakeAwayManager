@@ -1,8 +1,8 @@
 package DB.Dao;
 
-import java.sql.Connection;
 import java.sql.*;
 import DB.model.User;
+import DB.util.StringUtil;
 
 public class UserDao {
 	/**
@@ -23,5 +23,14 @@ public class UserDao {
 			resultUser.setType(rs.getInt("Type"));
 		}
 		return resultUser;
+	}
+	
+	public int add(Connection con,User user)throws Exception{
+		String sql ="insert into user values(null,?,?,?)";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		pstmt.setString(1,user.getUserName());
+		pstmt.setString(2,user.getPassWord());
+		pstmt.setInt(3,user.getType());
+		return pstmt.executeUpdate();		
 	}
 }

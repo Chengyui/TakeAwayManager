@@ -36,6 +36,7 @@ public class LogOnFrm extends JFrame {
 	private JPasswordField passWord;
 	private DbUtil dbUtil = new DbUtil();
 	private UserDao userDao = new UserDao();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -101,30 +102,46 @@ public class LogOnFrm extends JFrame {
 				ResetActionPerformed(e);
 			}
 		});
+		
+		JButton register_button = new JButton("\u6CE8\u518C");
+		register_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				new registerFrm().setVisible(true);
+				//contentPane.add(reg);
+			}
+		});
+		register_button.setFont(new Font("ºÚÌå", Font.PLAIN, 20));
+		register_button.setIcon(new ImageIcon(LogOnFrm.class.getResource("/images/\u6CE8\u518C (2).png")));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addContainerGap(244, Short.MAX_VALUE)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap(295, Short.MAX_VALUE)
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 228, GroupLayout.PREFERRED_SIZE)
 					.addGap(237))
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(208)
+					.addContainerGap(299, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+										.addComponent(lblNewLabel_2)
+										.addComponent(lblNewLabel_1))
+									.addGap(18)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(passWord)
+										.addComponent(userName, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)))
+								.addComponent(lblNewLabel_3))
+							.addGap(162))
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addComponent(register_button)
+							.addGap(48)
 							.addComponent(btnNewButton)
-							.addGap(109)
-							.addComponent(btnNewButton_1))
-						.addComponent(lblNewLabel_3)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblNewLabel_2)
-								.addComponent(lblNewLabel_1))
-							.addGap(18)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(passWord)
-								.addComponent(userName, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))))
-					.addContainerGap(186, Short.MAX_VALUE))
+							.addGap(45)
+							.addComponent(btnNewButton_1)
+							.addGap(71))))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -139,12 +156,13 @@ public class LogOnFrm extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_2)
 						.addComponent(passWord, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblNewLabel_3)
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 							.addComponent(btnNewButton)
-							.addComponent(btnNewButton_1)))
+							.addComponent(btnNewButton_1)
+							.addComponent(register_button, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)))
 					.addGap(53))
 		);
 		contentPane.setLayout(gl_contentPane);
