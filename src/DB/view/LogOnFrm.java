@@ -195,7 +195,7 @@ protected void ResetActionPerformed(ActionEvent e) {
 			con = dbUtil.getCon();
 			User currenUser = userDao.login(con,user);
 			if(currenUser!= null) {
-				//JOptionPane.showMessageDialog(null,"登陆成功");
+				JOptionPane.showMessageDialog(null,"登陆成功");
 			  	dispose();
 				new MainFrm(user).setVisible(true);
 					}
