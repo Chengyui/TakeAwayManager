@@ -8,7 +8,9 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import DB.Dao.AddressDao;
 import DB.Dao.UserDao;
+import DB.model.Address;
 import DB.model.User;
 import DB.util.DbUtil;
 import DB.util.StringUtil;
@@ -37,6 +39,8 @@ public class registerFrm extends JFrame {
 	private JPasswordField confirm_password;
 	private DbUtil dbUtil = new DbUtil();
 	private UserDao userDao = new UserDao();
+	private JTextField addresstext;
+	private AddressDao addressDao = new AddressDao();
 	/**
 	 * Launch the application.
 	 */
@@ -64,13 +68,13 @@ public class registerFrm extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblNewLabel = new JLabel("\u65B0\u8D26\u53F7:");
+		JLabel lblNewLabel = new JLabel("\u65B0\u8D26\u53F7\uFF1A");
 		lblNewLabel.setFont(new Font("黑体", Font.PLAIN, 20));
 		
 		account = new JTextField();
 		account.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("\u5BC6\u7801:");
+		JLabel lblNewLabel_1 = new JLabel("\u5BC6\u7801\uFF1A");
 		lblNewLabel_1.setFont(new Font("黑体", Font.PLAIN, 20));
 		
 		JLabel lblNewLabel_2 = new JLabel("\u786E\u8BA4\u5BC6\u7801\uFF1A");
@@ -88,27 +92,39 @@ public class registerFrm extends JFrame {
 			}
 		});
 		btnNewButton.setFont(new Font("黑体", Font.PLAIN, 20));
+		
+		JLabel lblNewLabel_3 = new JLabel("\u5730\u5740\uFF1A");
+		lblNewLabel_3.setFont(new Font("黑体", Font.PLAIN, 20));
+		
+		addresstext = new JTextField();
+		addresstext.setColumns(10);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(105, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap(105, Short.MAX_VALUE)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 									.addComponent(lblNewLabel)
 									.addComponent(lblNewLabel_1))
 								.addComponent(lblNewLabel_2))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(confirm_password)
-								.addComponent(password)
-								.addComponent(account, GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))
-							.addContainerGap(29, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addComponent(btnNewButton)
-							.addGap(112))))
+							.addPreferredGap(ComponentPlacement.RELATED))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(125)
+							.addComponent(lblNewLabel_3)
+							.addGap(26)))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(addresstext)
+						.addComponent(confirm_password)
+						.addComponent(password)
+						.addComponent(account, GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))
+					.addContainerGap(29, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap(183, Short.MAX_VALUE)
+					.addComponent(btnNewButton)
+					.addGap(106))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -125,9 +141,13 @@ public class registerFrm extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(confirm_password, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_2))
-					.addGap(32)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel_3)
+						.addComponent(addresstext, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
 					.addComponent(btnNewButton)
-					.addContainerGap(41, Short.MAX_VALUE))
+					.addContainerGap(22, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -142,6 +162,7 @@ public class registerFrm extends JFrame {
 		String account = this.account.getText();
 		String password =new String( this.password.getPassword());
 		String confirm_password = new String(this.confirm_password.getPassword());
+		String address = this.addresstext.getText();
 		if(StringUtil.isEmpty(account)){
 			JOptionPane.showMessageDialog(null, "用户名不能为空");
 			return;
@@ -154,16 +175,22 @@ public class registerFrm extends JFrame {
 			JOptionPane.showMessageDialog(null, "确认密码不能为空");
 			return;
 		}
+		if(StringUtil.isEmpty(address)){
+			JOptionPane.showMessageDialog(null, "地址不能为空");
+			return;
+		}
 		if(!password.equals(confirm_password)) {
 			JOptionPane.showMessageDialog(null, "确认密码必须与密码相同");
 			return;
 		}
 		User user = new User(account,password,3);
+		Address addRess = new Address(account,address);
 		Connection con = null;
 		try {
 			con = dbUtil.getCon();
 			int addnum = userDao.add(con,user);
-			if(addnum==1) {
+			int addnum1 = addressDao.add(con, addRess);
+			if(addnum==1&&addnum1==1) {
 				JOptionPane.showMessageDialog(null, "注册成功");
 				dispose();
 				new LogOnFrm().setVisible(true);

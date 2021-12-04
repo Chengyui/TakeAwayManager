@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
@@ -171,6 +173,7 @@ public class orderCheck extends JInternalFrame {
 			con = dbUtil.getCon();
 			ResultSet rs = foodOrderDao.list(con,new FoodOrder());
 			String prestring = new String();
+			List<String> list = new ArrayList<String>();
 			while(rs.next()) {
 				// 对foodorder相同用户部分进行去重操作
 				foodorder = new FoodOrder();
@@ -179,10 +182,9 @@ public class orderCheck extends JInternalFrame {
 				foodorder.setId(rs.getInt("id"));
 				foodorder.setUserName(rs.getString("userName"));
 				
-				if(prestring.equals(foodorder.getUserName())==false) {
+				if(!list.contains(foodorder.getUserName())) {
+					list.add(foodorder.getUserName());
 					this.orderList.addItem(foodorder);
-					prestring = new String();
-					prestring = foodorder.getUserName();
 				}		
 			}
 		} catch (Exception e) {

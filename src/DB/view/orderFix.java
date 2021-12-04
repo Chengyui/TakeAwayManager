@@ -7,16 +7,36 @@ import javax.swing.ImageIcon;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class orderFix extends JInternalFrame {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+import DB.Dao.AddressDao;
+import DB.Dao.FoodOrderDao;
+import DB.model.Address;
+import DB.model.FoodOrder;
+import DB.util.DbUtil;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
+public class orderFix extends JInternalFrame {
+
+	private DbUtil dbUtil = new DbUtil();
+	
+	private JComboBox orderList = new JComboBox();
+	private AddressDao addressDao = new AddressDao();
+	
+	private FoodOrderDao foodOrderDao = new FoodOrderDao();
+	private JTextField addresstext;
 	/**
 	 * Launch the application.
 	 */
@@ -44,73 +64,168 @@ public class orderFix extends JInternalFrame {
 		setTitle("\u8BA2\u5355\u4FEE\u6539");
 		setBounds(100, 100, 450, 300);
 		
-		JLabel lblNewLabel = new JLabel("\u8BA2\u5355\u684C\u53F7");
-		lblNewLabel.setFont(new Font("黑体", Font.BOLD, 20));
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		
-		JLabel lblNewLabel_1 = new JLabel("\u83DC\u54C1\u540D\u79F0");
-		lblNewLabel_1.setFont(new Font("黑体", Font.BOLD, 20));
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		
-		JLabel lblNewLabel_2 = new JLabel("\u65B0\u83DC\u54C1\u540D\u79F0");
-		lblNewLabel_2.setFont(new Font("黑体", Font.BOLD, 20));
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		
-		JButton btnNewButton = new JButton("\u786E\u8BA4\u4FEE\u6539");
+		JButton btnNewButton = new JButton("\u914D\u9001\u5B8C\u6210");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				finishActionPerformed(e);
+			}
+		});
 		btnNewButton.setFont(new Font("黑体", Font.BOLD, 23));
 		btnNewButton.setIcon(new ImageIcon(orderFix.class.getResource("/images/_\u4FEE\u6539\u8BA2\u5355.png")));
+		
+		
+		
+		JLabel lblNewLabel = new JLabel("\u987E\u5BA2\u59D3\u540D\uFF1A");
+		lblNewLabel.setFont(new Font("黑体", Font.PLAIN, 20));
+		
+		JLabel lblNewLabel_1 = new JLabel("\u76EE\u6807\u5730\u5740\uFF1A");
+		lblNewLabel_1.setFont(new Font("黑体", Font.PLAIN, 20));
+		
+		addresstext = new JTextField();
+		addresstext.setEditable(false);
+		addresstext.setColumns(10);
+		
+		JButton confirmbutton = new JButton("\u786E\u5B9A");
+		confirmbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				confirmActionPerformed(arg0);
+			}
+		});
+		confirmbutton.setFont(new Font("黑体", Font.PLAIN, 15));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addContainerGap(147, Short.MAX_VALUE)
+					.addComponent(btnNewButton)
+					.addGap(138))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(51)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(55)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblNewLabel_2)
-									.addGap(18)
-									.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(lblNewLabel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(lblNewLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-									.addGap(35)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(textField_1)
-										.addComponent(textField, GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)))))
+							.addComponent(lblNewLabel_1)
+							.addGap(18)
+							.addComponent(addresstext, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(124)
-							.addComponent(btnNewButton)))
-					.addContainerGap(103, Short.MAX_VALUE))
+							.addComponent(lblNewLabel)
+							.addGap(18)
+							.addComponent(orderList, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+							.addGap(28)
+							.addComponent(confirmbutton, 0, 0, Short.MAX_VALUE)))
+					.addContainerGap(83, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(46)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(textField, Alignment.TRAILING)
-						.addComponent(lblNewLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(33)
+					.addGap(62)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(26)
+						.addComponent(lblNewLabel)
+						.addComponent(orderList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(confirmbutton))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_2)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+						.addComponent(lblNewLabel_1)
+						.addComponent(addresstext, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(23)
 					.addComponent(btnNewButton)
-					.addGap(23))
+					.addContainerGap(85, Short.MAX_VALUE))
 		);
 		getContentPane().setLayout(groupLayout);
-
+		//下拉框初始化
+		this.fillOrderList();
+		//目标地址初始化
+		this.filladdress();
+	}
+	
+	
+	/**
+	 * 确定按钮实现
+	 * @param arg0
+	 */
+	private void confirmActionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		this.filladdress();
 	}
 
+	/**
+	 * 目标地址文本框初始化
+	 */
+	private void filladdress() {
+		FoodOrder foodorder = (FoodOrder)orderList.getSelectedItem();
+		Connection con = null;
+		Address address = new Address(foodorder.getUserName());
+		try {
+			con = dbUtil.getCon();
+			ResultSet rs = addressDao.list(con, address);
+			if(rs.next()) {
+				this.addresstext.setText(rs.getString("address"));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 实现订单完成按钮
+	 * @param e
+	 */
+	protected void finishActionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		FoodOrder foodorder = (FoodOrder)orderList.getSelectedItem();
+		Connection con = null;
+		try {
+			con = dbUtil.getCon();
+			int fixnum = foodOrderDao.finish(con, foodorder);
+			if(fixnum==1) {
+				JOptionPane.showMessageDialog(null, "修改成功");
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "修改失败");
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
+	/**
+	 * 订单下拉框实现
+	 */
+	
+	private void fillOrderList() {
+		Connection con  = null;
+		FoodOrder foodorder = null;
+		try {
+			con = dbUtil.getCon();
+			ResultSet rs = foodOrderDao.list(con,new FoodOrder());
+			String prestring = new String();
+			List<String> list = new ArrayList<String>();
+			while(rs.next()) {
+				// 对foodorder相同用户部分进行去重操作
+				foodorder = new FoodOrder();
+				foodorder.setFoodName(rs.getString("foodName"));
+				foodorder.setPrice(rs.getInt("Price"));
+				foodorder.setId(rs.getInt("id"));
+				foodorder.setUserName(rs.getString("userName"));
+				foodorder.setDone(rs.getInt("done"));
+				
+				if(!list.contains(foodorder.getUserName())&&foodorder.getDone()==0) {
+					list.add(foodorder.getUserName());
+					this.orderList.addItem(foodorder);
+				}		
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				DbUtil.closeCon(con);
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+}
 }

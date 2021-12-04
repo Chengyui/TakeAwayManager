@@ -9,6 +9,14 @@ public class FoodOrder {
 	private String userName;
 	private String FoodName;
 	private int Price;
+	private int Done;
+	private String evaluation;
+	public int getDone() {
+		return Done;
+	}
+	public void setDone(int done) {
+		Done = done;
+	}
 	public int getId() {
 		return id;
 	}
@@ -37,4 +45,11 @@ public class FoodOrder {
 	public String toString() {
 		return userName;
 	}
+	public String getEvaluation() {
+		return evaluation;
+	}
+	public void setEvaluation(String evaluation) {
+		this.evaluation = evaluation;
+	}
+	
 }

@@ -124,19 +124,59 @@ public class MainFrm extends JFrame {
 		order.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u67E5\u770B.png")));
 		mnNewMenu_1.add(order);
 		
-		JMenuItem orderFix = new JMenuItem("\u4FEE\u6539\u8BA2\u5355");
+		JMenuItem orderFix = new JMenuItem("\u914D\u9001\u8BA2\u5355");
+		orderFix.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				orderFix orderfix = new orderFix();
+				orderfix.setVisible(true);
+				table.add(orderfix);
+				
+			}
+		});
 		orderFix.setIcon(new ImageIcon(MainFrm.class.getResource("/images/_\u4FEE\u6539\u8BA2\u5355.png")));
 		mnNewMenu_1.add(orderFix);
 		
-		JMenu mnNewMenu_2 = new JMenu("\u65E5\u6536\u5165\u67E5\u770B");
-		mnNewMenu_2.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u67E5\u770B.png")));
+		JMenu mnNewMenu_2 = new JMenu("\u65E5\u6536\u5165");
+		mnNewMenu_2.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u94B1\u888B.png")));
 		menuBar.add(mnNewMenu_2);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u67E5\u770B");
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u67E5\u770B\u65E5\u6536\u5165");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IncomeInter incomeinter = new IncomeInter();
+				incomeinter.setVisible(true);
+				table.add(incomeinter);
+			}
+		});
+		mntmNewMenuItem_1.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u94B1\u888B.png")));
 		mnNewMenu_2.add(mntmNewMenuItem_1);
 		
-		JMenuBar menuBar_1 = new JMenuBar();
-		mnNewMenu_2.add(menuBar_1);
+		JMenu mnNewMenu_3 = new JMenu("\u8BC4\u4EF7");
+		mnNewMenu_3.setIcon(new ImageIcon(MainFrm.class.getResource("/images/classrepair.png")));
+		menuBar.add(mnNewMenu_3);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("\u987E\u5BA2\u8BC4\u4EF7");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				SpeakInter speakinter = new SpeakInter(user);
+				speakinter.setVisible(true);
+				table.add(speakinter);
+			}
+		});
+		mntmNewMenuItem_2.setIcon(new ImageIcon(MainFrm.class.getResource("/images/classmanage.png")));
+		mnNewMenu_3.add(mntmNewMenuItem_2);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("\u67E5\u770B\u8BC4\u4EF7");
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				evaluateInter eva = new evaluateInter();
+				eva.setVisible(true);
+				table.add(eva);
+			}
+		});
+		mntmNewMenuItem_3.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u67E5\u770B.png")));
+		mnNewMenu_3.add(mntmNewMenuItem_3);
 		table = new JPanel();
 		table.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(table);

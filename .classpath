@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="F:/桌面文件/软件工程课程设计/外卖管理系统/TakeAwayManager/miglayout15-swing.jar"/>
 	<classpathentry kind="lib" path="F:/桌面文件/软件工程课程设计/外卖管理系统/TakeAwayManager/mysql-connector-java-5.0.8-bin.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
