@@ -14,6 +14,8 @@ import java.awt.SystemColor;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -62,6 +64,7 @@ public class MainFrm extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrm(User user) {
+		System.out.println(user.getType());
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrm.class.getResource("/images/\u7F8E\u56E2\u5916\u5356.png")));
 		setTitle("\u5916\u5356\u7BA1\u7406\u7CFB\u7EDF");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,9 +82,14 @@ public class MainFrm extends JFrame {
 		JMenuItem menuF = new JMenuItem("\u83DC\u5355\u4FEE\u6539");
 		menuF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				menuFixInter menufix = new menuFixInter();
-				menufix.setVisible(true);
-				table.add(menufix);
+				if(user.getType()==1) {
+					menuFixInter menufix = new menuFixInter();
+					menufix.setVisible(true);
+					table.add(menufix);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"您没有权限");
+				}
 			}
 		});
 		
@@ -89,9 +97,16 @@ public class MainFrm extends JFrame {
 		mnNewMenu.add(menu_1);
 		menu_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MenuInter menu=new MenuInter(user);
-				menu.setVisible(true);
-				table.add(menu);
+				int type = user.getType();
+				if(type==3||type==1) {
+					MenuInter menu=new MenuInter(user);
+					menu.setVisible(true);
+					table.add(menu);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"您没有权限");
+				}
+				
 			}
 		});
 		menu_1.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u67E5\u770B.png")));
@@ -101,13 +116,28 @@ public class MainFrm extends JFrame {
 		JMenuItem mntmNewMenuItem = new JMenuItem("\u83DC\u5355\u6DFB\u52A0");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				menuAddFrm menuadd = new menuAddFrm();
-				menuadd.setVisible(true);
-				table.add(menuadd);
+				if(user.getType()==1) {
+					menuAddFrm menuadd = new menuAddFrm();
+					menuadd.setVisible(true);
+					table.add(menuadd);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"您没有权限");
+				}
 			}
 		});
 		mntmNewMenuItem.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u6DFB\u52A0.png")));
 		mnNewMenu.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("\u9000\u51FA\u767B\u5F55");
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				new LogOnFrm().setVisible(true);
+			}
+		});
+		mntmNewMenuItem_4.setIcon(new ImageIcon(MainFrm.class.getResource("/images/reset.gif")));
+		mnNewMenu.add(mntmNewMenuItem_4);
 		
 		JMenu mnNewMenu_1 = new JMenu("  \u8BA2\u5355    |  ");
 		mnNewMenu_1.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u83DC\u5355 (3).png")));
@@ -116,9 +146,14 @@ public class MainFrm extends JFrame {
 		JMenuItem order = new JMenuItem("\u67E5\u770B\u8BA2\u5355");
 		order.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				orderCheck ordercheck = new orderCheck();
-				ordercheck.setVisible(true);
-				table.add(ordercheck);
+				if(user.getType()==1||user.getType()==2) {
+					orderCheck ordercheck = new orderCheck();
+					ordercheck.setVisible(true);
+					table.add(ordercheck);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"您没有权限");
+				}
 			}
 		});
 		order.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u67E5\u770B.png")));
@@ -127,10 +162,14 @@ public class MainFrm extends JFrame {
 		JMenuItem orderFix = new JMenuItem("\u914D\u9001\u8BA2\u5355");
 		orderFix.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				orderFix orderfix = new orderFix();
-				orderfix.setVisible(true);
-				table.add(orderfix);
-				
+				if(user.getType()==1||user.getType()==2) {
+					orderFix orderfix = new orderFix();
+					orderfix.setVisible(true);
+					table.add(orderfix);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"您没有权限");
+				}
 			}
 		});
 		orderFix.setIcon(new ImageIcon(MainFrm.class.getResource("/images/_\u4FEE\u6539\u8BA2\u5355.png")));
@@ -143,9 +182,15 @@ public class MainFrm extends JFrame {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("\u67E5\u770B\u65E5\u6536\u5165");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				IncomeInter incomeinter = new IncomeInter();
-				incomeinter.setVisible(true);
-				table.add(incomeinter);
+				int type = user.getType();
+				if(user.getType()==1) {
+					IncomeInter incomeinter = new IncomeInter();
+					incomeinter.setVisible(true);
+					table.add(incomeinter);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"您没有权限");
+				}
 			}
 		});
 		mntmNewMenuItem_1.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u94B1\u888B.png")));
@@ -158,10 +203,14 @@ public class MainFrm extends JFrame {
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("\u987E\u5BA2\u8BC4\u4EF7");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(user.getType()==1||user.getType()==3) {
 				SpeakInter speakinter = new SpeakInter(user);
 				speakinter.setVisible(true);
 				table.add(speakinter);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"您没有权限");
+				}
 			}
 		});
 		mntmNewMenuItem_2.setIcon(new ImageIcon(MainFrm.class.getResource("/images/classmanage.png")));
@@ -170,9 +219,14 @@ public class MainFrm extends JFrame {
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("\u67E5\u770B\u8BC4\u4EF7");
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				evaluateInter eva = new evaluateInter();
-				eva.setVisible(true);
-				table.add(eva);
+				if(user.getType()==1) {
+					evaluateInter eva = new evaluateInter();
+					eva.setVisible(true);
+					table.add(eva);
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"您没有权限");
+				}
 			}
 		});
 		mntmNewMenuItem_3.setIcon(new ImageIcon(MainFrm.class.getResource("/images/\u67E5\u770B.png")));

@@ -197,7 +197,7 @@ protected void ResetActionPerformed(ActionEvent e) {
 			if(currenUser!= null) {
 				JOptionPane.showMessageDialog(null,"登陆成功");
 			  	dispose();
-				new MainFrm(user).setVisible(true);
+				new MainFrm(currenUser).setVisible(true);
 					}
 			else {
 				JOptionPane.showMessageDialog(null, "用户名或密码错误请重试");

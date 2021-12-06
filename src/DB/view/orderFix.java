@@ -61,7 +61,7 @@ public class orderFix extends JInternalFrame {
 		setFrameIcon(new ImageIcon(orderFix.class.getResource("/images/\u4FEE\u6539_\u586B\u5145.png")));
 		setClosable(true);
 		setIconifiable(true);
-		setTitle("\u8BA2\u5355\u4FEE\u6539");
+		setTitle("\u8BA2\u5355\u914D\u9001");
 		setBounds(100, 100, 450, 300);
 		
 		JButton btnNewButton = new JButton("\u914D\u9001\u5B8C\u6210");
@@ -201,6 +201,10 @@ public class orderFix extends JInternalFrame {
 			ResultSet rs = foodOrderDao.list(con,new FoodOrder());
 			String prestring = new String();
 			List<String> list = new ArrayList<String>();
+			if(rs==null) {
+				JOptionPane.showMessageDialog(null, "没有配送的订单");
+				dispose();
+			}
 			while(rs.next()) {
 				// 对foodorder相同用户部分进行去重操作
 				foodorder = new FoodOrder();

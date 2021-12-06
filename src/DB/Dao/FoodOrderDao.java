@@ -14,12 +14,13 @@ import DB.util.StringUtil;
  */
 public class FoodOrderDao {
 	public int add(Connection con,FoodOrder foodOrder)throws Exception{
-		String sql ="insert into foodorder values(null,?,?,?,?)";
+		String sql ="insert into foodorder values(null,?,?,?,?,?)";
 		PreparedStatement pstmt=con.prepareStatement(sql);
 		pstmt.setString(1,foodOrder.getUserName());
 		pstmt.setString(2, foodOrder.getFoodName());
 		pstmt.setInt(3, foodOrder.getPrice());
 		pstmt.setInt(4, 0);
+		pstmt.setString(5, foodOrder.getEvaluation());
 		return pstmt.executeUpdate();		
 	}
 	public int update(Connection con, String username, String foodname, String evaluation)throws Exception{
